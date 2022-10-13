@@ -1,0 +1,21 @@
+ASM = nasm
+FLAGS = -felf64 -g
+LD = ld
+
+main: main.o words.o dict.o lib.o
+	$(LD) -o $@ $^
+
+%.o: %.asm 
+	$(ASM) $(FLAGS) -o $@ $<
+
+%.o: %.inc 
+	$(ASM) $(FLAGS) -o $@ $<
+
+main.o: main.asm words.o lib.o dict.o
+	$(ASM) $(FLAGS) -o $@ $<
+
+.PHONY : clean
+
+clean:
+	rm *.o
+	rm main
